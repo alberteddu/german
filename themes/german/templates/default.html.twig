@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ page.title|default(site.config.name|default('Pine')) }}</title>
+
+    <link rel="stylesheet" href="{{ asset('/css/tufte.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+</head>
+<body class="{% if theme.config.style in ['serif', 'sans-serif'] %}{{ theme.config.style }}{% endif %}">
+
+{% for child in post.children|reverse %}
+    <div class="thing" id="{{ child.title }}">
+        {% if child.use|default(false) %}
+            <h3>
+                <strong>{{ child.use|raw }}</strong> {% if child.addition|default(false) %}
+                    <em>{{ child.addition|raw }}</em>{% endif %}</h3>
+        {% endif %}
+
+        {{ child.__content|raw }}
+
+        {% if child.examples|default(false) %}
+            <div class="epigraph">
+                <span class="newthought">Examples</span>
+                {% for example in child.examples|default([]) %}
+                    <blockquote>
+                        {{ example.de|raw }}
+                        <footer>{{ example.en|raw }}</footer>
+                    </blockquote>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="separator"></div>
+    </div>
+{% endfor %}
+
+</body>
+</html>
